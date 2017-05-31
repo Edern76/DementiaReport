@@ -25,8 +25,7 @@ ban.outerHTML = "";
 delete ban
 }
 window.onload = codeAddress;
-</script>
-</head>
+</script></head>
 <body>
 <h1 style="text-align: center; text-decoration: underline;">Le
 Projet du Bac</h1>
@@ -469,9 +468,14 @@ sous titre 2</span><br>
 Les implications du projet : Une partie liée aux problématiques
 sociétales liées au projet.</h2>
 <h3>&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 1&nbsp; :
-sous titre 1</span><br>
+La communauté</span><br>
 &nbsp;</h3>
-<p>Texte</p>
+<p>Nous espérons créer, avec ce jeu, malgré son intérêt assez faible
+par rapport aux géants du genre comme Cogmind, une communauté de
+joueurs qui pourraient se regrouper sur internet afin de discuter des
+différentes stratégies possibles, des secrets qu'ils auront trouvés ou
+encore pour demander de l'aide. C'est pourquoi nous avons décidé
+d'écrire le jeu en anglais, afin de l'ouvrir au plus grand nombre.</p>
 <h3>&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 2&nbsp; :
 sous titre 2</span><br>
 &nbsp;</h3>
@@ -506,9 +510,29 @@ celle utilisée par défaut par TDL, mais nous ne sommes pas du tout
 certains que cela fonctionnera et/ou que cela aboutisse effectivement à
 un agrandissment des caractères présents sur l'écran.
 <h3>&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 2&nbsp; :
-sous titre 2</span><br>
-&nbsp;</h3>
-<p>Texte</p>
+&nbsp;L'organisation du code (modulation)</span><br>
+</h3>
+<p>Ce projet étant pour tous deux une première réelle expérience de
+développement d'un jeu vidéo, ainsi que nos premiers pas en python et
+avec la bibliothèque TDL, nous nous sommes aidés, lors des premières
+étapes du projet, d'un tutoriel trouvé sur Internet. Cependant, nous
+avons vite dépassé le stade auquel ce tutoriel était arrêté, et nous
+avons donc décidé, plutôt que de recommencer le code à 0 en nous
+servant des compétences acquises grâce au tutoriel, de continuer au
+point ou nous en étions. Mais nous avons vite regretté cette décision.
+En effet, le code devint vite illisible et anarchique, et nous nous
+serions certainement perdus sans la fonction de recherche (ctrl+F) de
+notre environnement de développement. Nous avons donc tenté d'éclater
+notre projet en différents modules, mais avons vite fait marche arrière
+lorsque nous nous sommes rendus compteque des références réciproques étaient nécessaires à chaque tentative. Par exemple, 
+la création du personnage, qui avait été déplacée vers son propre
+module, faisait référence à des variables globales situées dans le
+fichier main.py. Mais ce même fichier main.py fasait référence à des
+fonctions situées dans le module de la création de personnage, créant
+ainsi des boucles d'importations dangereuses pour la stabilité du
+programme. Nous avons donc abandonné l'idée de moduler le code déjà
+existant et avons donc commencé à créer des modules seulement à la
+suite de ce problème.</p>
 <h2 style="text-align: center;"><span style="color: rgb(0, 128, 0);">Évaluation au fil du projet.</span></h2>
 <table style="height: 100px; width: 500px;" align="center" border="3" cellpadding="2" cellspacing="2">
 <tbody>
