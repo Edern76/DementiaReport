@@ -1,0 +1,260 @@
+<div class="wiki-body">
+		
+			
+			
+			
+				<p>Découpage du projet</p>
+
+<h1 style="text-align:center">Le Projet du Bac</h1>
+
+<h2>Consignes à respecter :</h2>
+
+<p><br>
+Utilisez dans cette partie de votre travail un chapitre pour chaque éléments de construction du projet final.<br>
+Utilisez des titres de chapitres en rapport avec les domaines évalués à l'oral.<br>
+N'hésitez pas à détailler la progression du travail et faites référence à ce qui est traité par le (les) autre(s) membre(s) du groupe.</p>
+
+<p>Le découpage ci-dessous en 2 parties à chaque fois n'a rien d'un caractère obligatoire .... mais il fallait bien commencer par un modèle.<br>
+&nbsp;</p>
+
+<h2>Le projet : titre, description et contenu du cahier des charges.</h2>
+
+<h3>&nbsp;</h3>
+
+<p>Notre projet, intitulé <em>Dementia RL</em>, est un jeu vidéo de type <em>roguelike</em> développé en langage Python 3 et sous license BSD 2-Clause. Nous avons choisi de travailler sur un tel projet car, sans être d'une difficulté insurmontable, cela nous a permi de mettre au défi nos compétences en matière de programmation, et d'apprendre de nouveaux concepts et de nouvelles techniques de programmation afin de surmonter certains obstacles. De plus, appréciant tous deux jouer aux jeux-vidéos, l'idée d'en créer un nous même nous est venue assez naturellement.</p>
+
+<h3><br>
+&nbsp;&nbsp;&nbsp; <u>Partie 1&nbsp; : Définition d'un roguelike</u><br>
+&nbsp;</h3>
+
+<p>Un <em>roguelike</em> est un type de jeu vidéo proche du RPG (jeu de rôles). Dans un jeu de rôles, on incarne un personnage que l'on a crée au préalable, que l'on doit guider dans un (ou plusieurs) donjons&nbsp;afin d'atteindre un but final, qui varie selon les jeux mais constitue souvent à récupérer un objet clé ou à tuer un antagoniste particulièrement puissant, aussi appelé <em>boss final</em>. Au cours de ces aventures, ce personnage rencontre des monstres qu'il va devoir tuer (ou éviter) à l'aide de plusieurs moyens mis à sa disposition : que ce soit à l'aide d'armes à distance, d'armes de mêlée ou de magie. Tuer des monstres rapporte des points d'expérience, qui lorsque ils sont amassés en quantité suffisante permettent au joueur de gagner des niveaux, qui lui permettent de monter en puissance. Il peut également ramasser des objets aux divers effets qu'il peut stocker dans son inventaire pour les utiliser plus tard, ainsi que de l'équipement dont il peut s'équiper pour augmenter ses caractéristiques. Un roguelike reprend ces codes, et y rajoute le concept de <em>permadeath</em> (mort permanente : lorsque le personnage du joueur meurt, il doit recommencer le jeu à partir de zéro), le fait que les différents étages du donjon soient générés aléatoirement à chaque partie, et le fait que le joueur doive gérer ses ressources (faim, points de vie, points d'énergie...) attentivement car les objets sont en quantité limitée. De plus, un roguelike se joue forcément au tour par tour (le jeu n'avance que après que le joueur aie effectué une action, si cette condition n'est pas satisfaite il ne s'agit pas d'un <em>roguelike</em> mais d'un <em>roguelite</em>), et ses graphismes sont souvent des graphismes en ASCII (un caractère représente un monstre, un objet, etc...). Nous avons choisi de développer un tel jeu pour plusieurs raisons :<br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Tout d'abord, le fait que les graphismes soient traditionellement des graphismes en ASCII nous permet de passer un temps quasi inexistant sur la création des graphismes (puisque ceux-ci se résument à un simple caractère), et donc de nous concentrer sur la partie programmation.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; -&nbsp;Ensuite, car il n'existe pas beaucoup de roguelikes écrits en Python, et encore moins en Python 3.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Enfin, car nous avons trouvé que la combinaison du système de mort permanente avec la génération aléatioire permet une durée de vie quasi infinie : chaque partie est unique, et le joueur est forcé de constamment réfléchir à ses choix, car le moindre faux pas peut se traduire par le fait d'avoir à repartir de 0.</p>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 2&nbsp; : Description de notre projet</u><br>
+&nbsp;</h3>
+
+<p>&nbsp;</p>
+
+<p><em>Note : Cette partie sera mise à jour lorsque les fonctionnalités évoquées comme étant en cours de développement seront implémentées. Pour plus de détails, merci de vous réferer aux <a href="https://lea.hautenormandie.fr/group/spe_isn_2016_1017/atelier/-/wiki/Main/Deadlines+du+projet/maximized">deadlines</a>.</em></p>
+
+<p>&nbsp;</p>
+
+<p>Notre roguelike comporte actuellement un système de gestion de faim, de l'inventaire et de l'équipement (avec gestion du poids), un système de sauvegarde et de chargement, quelques sorts, objets et ennemis basiques, quelques types différents d'intelligences artificielle, ainsi qu'un donjon principal qui comporte une 'branche' secondaire se terminant par un <em>boss</em>. Nous prévoyons d'ajouter dans un futur proche des personnages non jouables avec lequel le joueur peut dialoguer, plus de monstres, objets, sorts, et 'branches' secondaires, un système de 'meilleurs scores', un système de persistence entre les parties (vous pourrez croiser le monstre qui vous a tué lors d'une partie précédente, et a par conséquent gagné en puissance et éventuellement récupéré quelques uns des objets de votre personnage précédent que vous pouvez récupérer en tuant le dit monstre) ainsi qu'un tutoriel, expliquant les bases du jeu et permettant d'établir le scénario.</p>
+
+<p>Pour ce qui est du scénario, &nbsp;votre personnage a tenté de vaincre Zargothrox, un magicien maléfique et immensément puissant qui menaçait de détruire votre monde. Néanmoins, celui-ci s'est révélé être trop puissant pour vous ; il vous a piégé et vous a téléporté dans le donjon dans lequel vous vous trouvez, rempli de monstres sanguinaires et autres horreurs indescriptibles. Pire encore : à chaque mort, vous revenez à la vie sous une forme différente, et la forme et la structure du donjon change complètement. Vous êtes donc condamner à errer pour l'éternité dans les couloirs de cet endroit abominable, à moins que vous ne trouviez un moyen de vous échapper, et d'accessoirement prendre votre revanche sur Zargothrox, qui constituera le boss final.</p>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 3&nbsp; : Modules requis :</u></h3>
+
+<p>Notre programme utilise principalement une version modifiée du module <strong>TDL</strong> (basée sur la version 1.5.3, notre projet ne fonctionne pas sous les versions plus récentes) écrit par Kyle Stewart, disponible sous license BSD 2-Clause, et inclus dans les fichiers du projet, dans le dossier tdlib (car nous avons eu besoin d'en modifier certains fichiers). Ce module permet de créer une console divisée en une grille (chaque case est donc associée à un couple de coordonnées (x,y)), et d'afficher des caractères ASCII de différentes couleurs à des coordonées (x,y) de la console précise. On peut également diviser la console en plusieurs parties, chacune ayant alors son propre système de coordonnées, et afficher directement des chaînes de caractères (plutôt que d'avoir à afficher individuellement chaque caractère). Il s'agit également du module gérant les entrées clavier, qu'il retourne sous la forme d'une chaîne de caractère associée au nom de la touche, on peut alors utiliser cette chaîne dans nos propres fonctions afin d'effectuer diverses actions selon la touche enfoncée.<br>
+<br>
+<br>
+Nous utilisons également une version modifiée par nos soins pour être compatible avec Python 3 (et TDL) du module <strong>XpLoader</strong>, écrit par Sean Hagar en Python 2 (et sous license MIT) afin de pouvoir afficher les images produites avec <strong>REXPaint</strong> (un logiciel gratuit permettant de produire des images constituées uniquement de caractères ASCII - soit de l'ASCII art - et faisant figure de référence dans la communauté des développeurs de roguelike) directement dans une console libtcod (l'"ancêtre" en Python 2 de TDL).<br>
+En effet, REXPaint produit des fichiers .xp (ou .png, mais TDL ne permet d'afficher que de l'ASCII, on ne peut donc pas afficher d'images au format traditionnel), contenant la liste des différents caractères, leur positions, leurs couleurs... Notre version modifée, nommée XpLoaderPy3, fonctionne donc sous Python 3 et affiche ces images issues de fichiers .xp dans une console TDL (plutôt que libtcod), et possède quelques fonctionnalités supplémentaires quant à l'originale, comme la possibilité de décaler l'affichage de l'image, ou de choisir de ne pas afficher les caractères transparents. Nous avons décidé de faire une page <a href="https://github.com/Edern76/XPLoaderPy3" rel="me">GitHub séparée</a> pour ce module (notez que cela est permis par la license MIT, du moment que l'on cite l'auteur original) afin que d'autres développeurs puissent l'utiliser. Cela a eu pour conséquence que le développeur de <strong>REXPaint</strong> a décidé d'inclure un lien vers notre version de ce module sur <a href="http://www.gridsagegames.com/rexpaint/resources.html">son site internet</a> (sous la catégorie 'Libraries').<br>
+Ce module est inclus dans le dossier code, et ne nécessite pas de quelconque installation. L'installation de REXPaint n'est pas non plus nécessaire.<br>
+<br>
+Si vous désirez lancer le programme à partir du code source, vous aurez besoin des modules suivants :&nbsp;<br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - libtcod-cffi (<strong><strong>version 1.0</strong></strong>) : Module sur lequel est basé TDL.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - simpleaudio : Module utilisé pour gérer le son.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - cffi (*) : Module utilisé par libtcod-cffi. L'installation peut être un peu plus compliquée sous Unix que sous Windows (il est en effet possible qu'il faille installer un certain package avec la commande <em>sudo apt-get install </em>avant d'effectuer <em>pip install)</em><br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - dill<em> </em>(*) : Utilisé pour la sauvegarde des fichiers. Il permet de rajouter la capactié de sauvegarder les expressions lambda (que nous utilisons dans notre projet) au module shelve qui gère d'habitude la sauvegarde. Nous avons donc modifié le module shelve (présent dans la libraire standard Python) pour qu'il utilise dill, en remplacant l'importation de pickle par l'importation de dill.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - ffmpy : Utilisé pour convertir les fichiers sons au format mp3 vers le format wav. En effet, simpleaudio ne supporte que les fichiers wav, et les inclure directement dans le programme génèrerait des temps d'upload vers GitHub beaucoup trop importants. <u>Nécessite d'avoir un exécutable de ffmpeg approprié à votre système d'exploitation dans le dossier code</u>. (l'exécutable Windows est déjà inclus). Alternativement, vous pouvez convertir vous même les fichiers mp3 dans le dossier assets/music et les placer dans le dossier assets/sound, ce qui élimine la nécessité d'avoir un exécutable de ffmpeg dans le dossier (ffmpy est toutefois toujours requis).<br>
+&nbsp;</p>
+
+<ul>
+</ul>
+
+<p>Ces modules sont tous censés fonctionner aussi bien sous Windows, Linux que sous OSX.<br>
+Les modules marqués d'un astérisque (*) sont normalement inclus avec la distribution de Python nommée Anaconda.<br>
+Si vous ne souhaitez pas installer ces modules, vous pouvez également lancer le jeu à partir d'un fichier exécutable ne nécessitant aucun autre module (et même aucune installation de Python) généré avec le module cx_Freeze et le fichier setupconda.py. Cependant, nous n'avons généré d'exécutable que pour Windows 64-bits pour le moment (pour pouvoir générer un exécutable pour une autre plateforme, il faut exécuter setupconda.py sur la dite plateforme, en ayant vérfié au préalable que tous les modules requis sont bien installés, y compris cx_Freeze). De plus, comme il faut générer manuellement ces exécutables, ceux-ci peuvent ne pas correspondre à la dernière version de notre programme. Vous pouvez trouver ces exécutables sur la page <a href="https://github.com/Edern76/DementiaRL/releases">Releases</a> de notre repository GitHub.</p>
+
+<h2><br>
+Les étapes de construction du projet : Répartition des tâches et rythme de progression par membre du groupe.</h2>
+
+<p>Nous avons commencé à travailler sur notre projet bien avant la date où nous étions censé commencer à le faire. Afin de gérer efficacement notre travail, de garder une trace de 'qui fait quoi', d'avoir un moyen simple et efficace de partager notre code source et de pouvoir synchroniser nos versions du programme de façon rapide et facile, nous avons mis en place un repository GitHub, disponible à <a href="https://github.com/Edern76/DementiaRL">cette adresse</a>. Le fonctionnement de cet outil est relativement simple : le code source est stocké sur un serveur. Lorsque un membre du groupe souhaite y apporter une modification, il crée un 'commit', qui comporte la liste des modifications, un titre et éventuellement une description, qu'il envoie ensuite sur un serveur (on dit qu'il <em>push</em> ce commit). Ces modifications sont alors immédiatement disponibles pour l'autre membre, qui n'a plus qu'à entrer <em>git pull</em> dans un shell ou à cliquer sur le bouton <em>Sync</em> de l'application <em>GitHub Desktop</em>. En cas de conflit, c'est à dire si deux commits modifient la même partie d'un fichier, GitHub prévient de ce conflit en isolant les parties en question dans le fichier posant problème et en incluant les deux versions en conflit. Pour résoudre ce conflit, il suffit d'effacer la version que l'on ne souhaite pas conserver (ou de la modifier pour qu'elle incluse l'autre version, ce qui n'est pas toujours possible) puis de créer un nouveau commit.<br>
+<br>
+Il est également possible de maintenir plusieurs versions d'un même programme simultanément grâce à cet outil. Ces versions sont appelées des branches. La branche <em>master</em> est la branche principale de notre programme, elle correspond à une version relativement stable. Afin d'éviter d'introduire des bugs dans cette branche, nos commits sont <em>pushés</em> sur une branche secondaire, la branche <em>secondary</em>. Lorsque nous avons effectué plusieurs commits successifs sur cette branche secondaire, et que l'ensemble n'est pas trop instable, on rappatrie les changements vers la branche <em>master</em>, en effectuant un <em>pull request</em>. Vous pourrez constater qu'il existe beaucoup plus que deux branches, nous avons en effet crée plusieurs branches correspondant à des sauvegardes de la branche <em>master</em> a des dates donnée (à la fois pour prévenir des éventuels problèmes et pour pouvoir nous rendre compte plus facilement de l'évolution du projet). De plus, lorsque nous avons implémenté des fonctionnalités risquant particulièrement de provoquer des erreurs, nous avons crée de nouvelles branches à partir de <em>secondary</em>, et lorsque nous nous étions assuré que les dites erreurs avaient disparu, nous avons effectué un <em>pull request</em> de cette nouvelle branche vers <em>secondary</em> (ou, lorsque trop d'erreurs survenaient, nous avons 'abandonné' ces branches, et repris le développement sur secondary à partir de là où l'on en était avant cette branche).<br>
+<br>
+La répartition du travail jusqu'à maintenant est disponible dans l'historique des commits. Celui-ci affiche tous les commits ayant été effectués sur une branche, ainsi que leur auteur. Le pseudo de Erwan est <em>Malan-Tai</em> (avatar rose) et celui de Gawein est <em>Edern76</em> (avatar vert). Le pseudo<em> lasTH76</em> (avatar rouge) correspond à un autre camarade du groupe d'ISN qui voulait initialement se joindre à nous, mais a ensuite changé d'avis. Il n'existe cependant plus aucune trace de ses modifications dans la version finale (il avait commencé à séparer le code du fichier main.py en modules, ce qui s'est avéré poser un très grand nombre de problèmes par la suite, nous avons donc préféré le rapattrier dans le fichier main.py et ne mettre dans des modules séparés que le code ne dépendant d'aucun élément de main.py, comme par exemple le générateur de nom, les constantes...). En cliquant sur un commit, vous pourrez voir ses détails : à savoir quelles modifications ont été apportées à quels fichiers. L'historique des commits de la branche <em>secondary</em> (celle mise à jour le plus souvent, l'historique de la branche <em>master</em> est cependant à peu près simillaire si ce n'est qu'il inclus en plus les <em>pull requests</em>) est donc disponible <a href="https://github.com/Edern76/DementiaRL/commits/secondary">ici</a>. Les noms des commits sont en anglais car comme pour XpLoaderPy3, nous souhaitons que le reste de la communauté de développeurs de roguelikes puisse bénéficier de notre travail et comprendre comment s'est effectué le processus de développement de notre projet.<br>
+<br>
+<span style="background-color:#ffffff; color:#006400; font-size:14px">Merci pour cette explication réellement très claire de la démarche.(Eric Le Jan)</span></p>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 1&nbsp; : sous titre 1</u><br>
+&nbsp;</h3>
+
+<p>Texte</p>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 2&nbsp; : sous titre 2</u><br>
+&nbsp;</h3>
+
+<p>Texte</p>
+
+<h2><br>
+Le développement algorithmique et programmatique du projet : Une partie liée au travail du membre auteur de ce livret.</h2>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 1&nbsp; : sous titre 1</u><br>
+&nbsp;</h3>
+
+<p>Texte</p>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 2&nbsp; : sous titre 2</u><br>
+&nbsp;</h3>
+
+<p>Texte</p>
+
+<h2><br>
+Les implications du projet : Une partie liée aux problématiques sociétales liées au projet.</h2>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 1&nbsp; : sous titre 1</u><br>
+&nbsp;</h3>
+
+<p>Texte</p>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 2&nbsp; : sous titre 2</u><br>
+&nbsp;</h3>
+
+<p>Texte</p>
+
+<h2><br>
+<u>Les problèmes rencontrés au cours du développement du projet : L'ensemble des problèmes et solutions recontrés et trouves par le groupe.</u></h2>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 1&nbsp; : Limitations techniques</u>&nbsp;</h3>
+
+<p>Nous avons choisi de réaliser notre projet en Python 3, car il s'agit du langage que nous avons étudié en ISN au cours de l'année. De plus, la simplicité de ce langage permet de concrétiser rapidement nos idées sans avoir à se préoccuper de l'allocation de la mémoire (contrairement à certains langages de plus 'bas niveau' que Python, c'est à dire plus proches du fonctionnement de la machine, comme par exemple le C++) ou à se heurter à une syntaxe trop rigide. Cependant, ce langage comporte aussi des inconvénients : le premier étant qu'il est beaucoup plus lent que la plupart des autres langages. Cela commence à poser problème lorsque plusieurs ennemis doivent calculer un chemin vers le joueur ou lorsque l'on doit sauvegarder ou charger un grand nombre de données (lors du changement de niveau par exemple), ce qui provoque une interruption temporaire du jeu, le temps que les opérations en cours s'effectuent. De plus, une des seules bibliothèques en Python 3 permettant de créer un roguelike est TDL (portage de la librairie libtcod). Or, celle-ci ne nous permet pas de changer facilement la taille de la police, ce qui fait que nous sommes forcés d'utiliser des petits caractères, qui peuvent être difficiles à lire. Nous allons tenter de créer notre propre police dans des dimensions supérieures à celle utilisée par défaut par TDL, mais nous ne sommes pas du tout certains que cela fonctionnera et/ou que cela aboutisse effectivement à un agrandissment des caractères présents sur l'écran.</p>
+
+<h3>&nbsp;&nbsp;&nbsp; <u>Partie 2&nbsp; : sous titre 2</u><br>
+&nbsp;</h3>
+
+<p>Texte</p>
+
+<h2 style="text-align:center"><span style="color:#008000">AutoÉvaluation au fil du projet.</span></h2>
+
+<table align="center" border="3" cellpadding="2" cellspacing="2" style="height:100px; width:500px">
+	<tbody>
+		<tr>
+			<td colspan="2" rowspan="1">Tâches définies et réparties</td>
+			<td colspan="2" rowspan="1">Projet , description, éléments de programmation ou d'algorithme</td>
+			<td colspan="2" rowspan="1">Compte rendu final , contenus, état de rédaction</td>
+			<td style="text-align:center">Note</td>
+			<td>Semaine</td>
+		</tr>
+		<tr>
+			<td><span style="color:#006400">+</span></td>
+			<td><span style="color:#006400">répartition voir Github ? </span></td>
+			<td>&nbsp;description : <span style="color:#006400">Oui</span></td>
+			<td>Programmation : <span style="color:#0000cd">RogueLike</span> ?</td>
+			<td>Amorcé</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">07 03</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">14 03</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">21 03</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">28 03</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">04 04</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">25 04</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">2 05</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">9 05</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">16 05</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">23 05</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td style="text-align:center">/5</td>
+			<td style="text-align:center">30 05</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>
+			
+		
+	</div>
