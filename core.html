@@ -399,7 +399,7 @@ Buff:</span><br>
 __init__</span>(self, name, color, owner =
 None, cooldown = 20, showCooldown = True, showBuff = True,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-applyFunction = None, continuousFunction = None, removeFunction = None):<br>
+applyFunction = None, continuousFunction = None, removeFunction = None):<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-style: italic;">#une fonction servant à initialiser la classe Buff, c'est-à-dire en créer une nouvelle instance</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 self.name = name<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -444,30 +444,37 @@ le buff est appliqué pour la première fois, lorsqu'un tour passe, et
 lorsque le buff disparaît. Ces trois méthodes spécifiques sont appelées
 dans des méthodes communes à tous les buffs.</p>
 <div class="code">&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">def
-applyBuff</span>(self, target):<br>
+applyBuff</span>(self, target):<br><span style="font-style: italic;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; #on exécute&nbsp;cette fonction lorsque le buff vient d'être subi</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 self.owner = target<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if not self.name in convertBuffsToNames(target.Fighter):<br>
+if not self.name in convertBuffsToNames(target.Fighter): <span style="font-style: italic;">#si </span>target<span style="font-style: italic;"> ne subit pas déjà ce buff</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-self.curCooldown = self.baseCooldown<br>
+self.curCooldown = self.baseCooldown <span style="font-style: italic;">#on initialise le cooldown</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if self.showBuff:<br>
+if self.showBuff: <span style="font-style: italic;">#on prévient le joueur si showBuff est True</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 message(self.owner.name.capitalize() + ' is now ' + self.name + '!',
 self.color)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if self.applyFunction is not None:<br>
+if self.applyFunction is not None: <span style="font-style: italic;">#on appelle la méthode applyFunction si elle existe</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 self.applyFunction(self.owner.Fighter)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-self.owner.Fighter.buffList.append(self)<br>
+self.owner.Fighter.buffList.append(self) <span style="font-style: italic;">#on ajoute le buff à la liste des buffs de la cible</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 else:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 bIndex = convertBuffsToNames(self.owner.Fighter).index(self.name)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-target.Fighter.buffList[bIndex].curCooldown += self.baseCooldown<br>
+target.Fighter.buffList[bIndex].curCooldown += self.baseCooldown<span style="font-style: italic;"> #sinon (si </span>target<span style="font-style: italic;"> subit déjà ce buff, on lui<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;rajoute du temps</span>
 </div>
 <p>La méthode&nbsp;<span style="font-style: italic;">applyBuff</span>
 permet d'appliquer le buff, par exemple lorsqu'un serpent mord le
@@ -482,20 +489,20 @@ initialiser le cooldown du buff et envoyer si nécessaire un message
 avertissant le joueur qu'une créature ou lui-même subit l'effet du
 buff. Elle va ensuite&nbsp;appeler, si elle existe, la méthode <span style="font-style: italic;">applyFunction</span> du
 buff, et va enfin ajouter à la liste de buffs de la cible le nouveau
-buff.</p>
+buff. Sinon, on rajoute au cooldown du buff déjà appliqué le cooldown du nouveau buff identique.</p>
 <div class="code">
 &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">def
-passTurn</span>(self):<br>
+passTurn</span>(self):<br><span style="font-style: italic;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; #cette fonction est exécutée chaque tour</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-self.curCooldown -= 1<br>
+self.curCooldown -= 1 <span style="font-style: italic;">#on réduit d'un tour le cooldown restant</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 if self.curCooldown &lt;= 0:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-self.removeBuff()<br>
+self.removeBuff() <span style="font-style: italic;">#si le cooldown du buff atteint 0, on le supprime</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 else:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if self.continuousFunction is not None:<br>
+if self.continuousFunction is not None: <span style="font-style: italic;">#sinon, on exécute la fonction devant s'appliquer chaque tour</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 self.continuousFunction(self.owner.Fighter)</div>
 <p>Puis la méthode&nbsp;<span style="font-style: italic;">passTurn</span>
@@ -506,22 +513,22 @@ elle existe la méthode&nbsp;<span style="font-style: italic;">continuousFunction
 du buff, afin par exemple d'infliger des dégâts de feu à la cible.</p>
 <div class="code">
 &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">def
-removeBuff</span>(self):<br>
+removeBuff</span>(self):<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-style: italic;">#comme vu plus haut, on exécute cette fonction lorsque le cooldown a atteint 0</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 if self.removeFunction is not None:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-self.removeFunction(self.owner.Fighter)<br>
+self.removeFunction(self.owner.Fighter) <span style="font-style: italic;">#on exécute la potentielle fonction de fin</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-self.owner.Fighter.buffList.remove(self)<br>
+self.owner.Fighter.buffList.remove(self) <span style="font-style: italic;">#on supprime le buff de la liste de la créature le subissant</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 if self.owner.Fighter.buffList is None:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-self.owner.Fighter.buffList = []<br>
+self.owner.Fighter.buffList = [] <span style="font-style: italic;">#on réinitialise si besoin la liste de la créature susdite</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if self.showBuff:<br>
+if self.showBuff:&nbsp;<span style="font-style: italic;">#on prévient si besoin le joueur</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 message(self.owner.name.capitalize() + ' is no longer ' + self.name +
-'.', self.color)</div>
+'.', self.color)<span style="font-style: italic;"></span></div>
 <p>Enfin, la méthode <span style="font-style: italic;">removeBuff</span>
 sert à faire disparaître le buff. Pour ce faire, elle va tout d'abord
 appeler si elle existe la méthode&nbsp;<span style="font-style: italic;">removeFunction</span> du
@@ -537,22 +544,22 @@ ici été effacés afin de ne représenter que la partie qui nous intéresse</span>)
 <div class="code"><span style="font-weight: bold;">
 def playGame</span>():<br>
 &nbsp;&nbsp;&nbsp; ...<br>
-&nbsp;&nbsp;&nbsp; while not tdl.event.isWindowClosed():<br>
+&nbsp;&nbsp;&nbsp; while not tdl.event.isWindowClosed(): <span style="font-style: italic;">#tant que la fenêtre n'est pas fermée</span><br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ...<br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if
 gameState == 'playing' and playerAction != 'didnt-take-turn':<br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; ...<br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; for object in objects:<br>
+&nbsp;&nbsp;&nbsp; for object in objects: <span style="font-style: italic;">#pour chaque instance de la classe GameObject dans la liste objects</span><br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ...<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if object.Fighter and object.Fighter is not None:<br>
+if object.Fighter and object.Fighter is not None: <span style="font-style: italic;">#si l'objet est vivant<br></span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 for buff in object.Fighter.buffList:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-buff.passTurn()</div>
+buff.passTurn()&nbsp;<span style="font-style: italic;">#on passe n tour pour chacun de ses buffs</span></div>
 <p>Dans la fonction principale <span style="font-style: italic;">playGame</span>, on joue
 jusqu'à ce que la fenêtre soit fermée, ce qui est représenté par la
 boucle <span style="font-style: italic;">while</span>.
@@ -585,7 +592,14 @@ l'on peu constater ci-dessus.</p>
 object.Player and object.Player.race == 'Werewolf':<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span style="font-weight: bold;">def shapeshift</span>(fighter,
-fromWolf = False, fromHuman = True):<br>
+fromWolf = False, fromHuman = True): <span style="font-style: italic;">#on définit une fonction interne échangeant<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;l'état théorique du joueur</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 if fromWolf:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -598,7 +612,7 @@ if fromHuman:<br>
 player.Player.shapeshift = 'wolf'<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 object.Player.shapeshifted = True<br>
-&nbsp;&nbsp;&nbsp; <br>
+<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="font-style: italic;">#On crée deux instances de la classe buff</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 human = <span style="font-weight: bold;">Buff</span>('human',
 colors.lightest_yellow, cooldown = player.Player.human, showBuff =
@@ -626,7 +640,11 @@ fighter:<br>&nbsp;&nbsp;&nbsp;
 fromWolf=True))<br>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if object.Player.shapeshifted:<br>
+if object.Player.shapeshifted: <span style="font-style: italic;">#si le joueur doit changer de forme ce tour-ci, on applique le buff<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;correspondant </span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 if object.Player.shapeshift == 'wolf':<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
