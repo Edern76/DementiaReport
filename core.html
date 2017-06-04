@@ -37,8 +37,7 @@ ban.outerHTML = "";
 delete ban
 }
 window.onload = codeAddress;
-</script>
-</head>
+</script></head>
 <body>
 <h1 style="text-align: center; text-decoration: underline;">Le
 Projet du Bac</h1>
@@ -367,7 +366,7 @@ Génération de cavernes (automate cellulaire)</span><br>
 Notre projet comporte plusieurs types de donjons : le type normal aux
 salles rectangulaires parsemées de gouffres, utilisé pour le donjon
 principal et certains donjons annexes, le donjon du boss Wrath,
-simillaire au donjon principal mais avec des irrégularités dans les
+similaire au donjon principal mais avec des irrégularités dans les
 murs des salles, et le donjon du boss Greed, ayant des salles à la
 forme et au placement beaucoup plus anarchique que les deux autres afin
 de simuler l'aspect d'une caverne. Bien entendu, chacun de ces types de
@@ -473,7 +472,7 @@ aléatoirement en un ensemble de salles, qu'il suffira ensuite
 d'identifier et de relier.</p>
 <div class="code">def doStep(oldMap):<br>
 &nbsp;&nbsp;&nbsp; newMap = list(deepcopy(baseMap)) #On
-cree une nouvelle carte surlaquelle on va travailler<br>
+cree une nouvelle carte sur laquelle on va travailler<br>
 &nbsp;&nbsp;&nbsp; for x in range(1, MAP_WIDTH - 1):<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 for y in range(1, MAP_HEIGHT - 1):<br>
@@ -518,7 +517,7 @@ pouvant être dans plusieurs états (ici 2 : mur ou case vide) et dont
 l'état peut varier à chaque étape en fonction de l'état des cellules
 qui lui sont voisines. On commence par créer une nouvelle carte ayant
 exactement les mêmes propriétés que la carte de base contenue dans la
-variable baseMap (celle ne possédant uniquement que des bordures), qui
+variable baseMap (celle possédant uniquement des bordures), qui
 va servir d'intermédiaire temporaire sur lequel on va effectuer les
 modifications. En effet, si l'on travaillait directement sur l'ancienne
 carte (myMap), le nombre de murs voisins de chaque case serait modifié
@@ -636,7 +635,7 @@ précédemment crées, c'est à dire.que l'on appelle la méthode __init__
 de cette classe :<br><br>
 <div class="code"> class CaveRoom:<br>&nbsp;&nbsp;&nbsp; def __init__(self, tiles, borders = []):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.tiles = tiles<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.borders = borders<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rooms.append(self)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.contestedTiles = []<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.collidingRooms = []<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.connectedRooms = []<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.protect = False<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.mainRoom = False<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.reachableFromMainRoom = False</div>
 <p></p>
-</p>
+
 
 <h3 class="">&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 2&nbsp; :
 Gestion des buffs et debuffs</span><br>
@@ -876,31 +875,25 @@ object.Player.shapeshifted = True<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 human = <span style="font-weight: bold;">Buff</span>('human',
 colors.lightest_yellow, cooldown = player.Player.human, showBuff =
-False, &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-applyFunction = <span style="font-weight: bold;">lambda</span>
+False,<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; applyFunction
+= <span style="font-weight: bold;">lambda</span>
 fighter: setFighterStatsBack(fighter),
 removeFunction = <span style="font-weight: bold;">lambda</span>
-fighter: &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; shapeshift(fighter))<br>
+fighter:<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;shapeshift(fighter)) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 wolf = <span style="font-weight: bold;">Buff</span>('in
 wolf form', colors.amber, cooldown = player.Player.wolf, applyFunction
 = <span style="font-weight: bold;">lambda</span>
-fighter: &nbsp;&nbsp;&nbsp;
+fighter:<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;modifyFighterStats(fighter, str = 5, dex
-= 3, vit = 4, will = -5), removeFunction = <span style="font-weight: bold;">lambda</span> fighter:
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+= 3, vit = 4, will = -5), removeFunction = <span style="font-weight: bold;">lambda</span> fighter:<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;shapeshift(fighter, fromHuman=False,
 fromWolf=True))<br>
@@ -911,12 +904,10 @@ if object.Player.shapeshifted:<br>
 if object.Player.shapeshift == 'wolf':<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 message('You feel your wild instincts overwhelming you! You have turned
-into your wolf form!', &nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;colors.amber)<br>
+into your wolf form!',<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;colors.amber) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 wolf.applyBuff(player)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -938,10 +929,7 @@ human = <span style="font-weight: bold;">Buff</span>(...applyFunction
 = <span style="font-weight: bold;">lambda</span>
 fighter: setFighterStatsBack(fighter),
 removeFunction = <span style="font-weight: bold;">lambda</span>
-fighter: &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-shapeshift(fighter))</div>
+fighter:<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; shapeshift(fighter))</div>
 <p>On voit ici l'apparition du mot-clé <span style="font-weight: bold;">lambda: </span>. Il est
 vital
 ici, car, sans lui, on aurait eu&nbsp;<span style="font-style: italic;">applyFunction =
@@ -962,11 +950,7 @@ exemple.</p>
 wolf = <span style="font-weight: bold;">Buff</span>(...applyFunction
 = <span style="font-weight: bold;">lambda</span>
 fighter: modifyFighterStats(fighter, str = 5, dex
-= 3, vit = 4, will = -5), &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; removeFunction = <span style="font-weight: bold;">lambda</span> fighter:
+= 3, vit = 4, will = -5),<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;removeFunction = <span style="font-weight: bold;">lambda</span> fighter:
 shapeshift(fighter, fromHuman=False,
 fromWolf=True))</div>
 <p>De même pour le buff&nbsp;<span style="font-style: italic;">wolf</span>,&nbsp;<span style="font-weight: bold;">lambda</span>
