@@ -25,7 +25,8 @@ ban.outerHTML = "";
 delete ban
 }
 window.onload = codeAddress;
-</script></head>
+</script>
+</head>
 <body>
 <h1 style="text-align: center; text-decoration: underline;">Le
 Projet du Bac</h1>
@@ -334,7 +335,9 @@ donc disponible <a href="https://github.com/Edern76/DementiaRL/commits/secondary
 Les noms des commits sont en anglais car comme pour XpLoaderPy3, nous
 souhaitons que le reste de la communauté de développeurs de roguelikes
 puisse bénéficier de notre travail et comprendre comment s'est effectué
-le processus de développement de notre projet.<br><br>Il
+le processus de développement de notre projet.<br>
+<br>
+Il
 est de plus important de noter que nous avons procédé de la même
 manière pour rédiger ce dossier, grâce à l'éditeur HTML gratuit
 KompoZer, car GitHub est non seulement capable de reconnaître des
@@ -458,7 +461,8 @@ l'image ci-dessous.</p>
 in range(STEPS_NUMBER):<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 myMap = doStep(myMap)</div>
-<p>Ensuite, on applique succésivement X fois (X étant la constante
+<p>Ensuite, on applique succésivement X fois (X étant la
+constante
 STEPS_NUMBER, définie au début du programme et égale à 2) la fonction
 doStep à la carte. C'est cette fonction qui va effectuer la majeure
 partie du travail et transformer l'ensemble des murs placés
@@ -466,16 +470,345 @@ aléatoirement en un ensemble de salles, qu'il suffira ensuite
 d'identifier et de relier.</p>
 <div class="code"></div>
 <h3 class="">&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 2&nbsp; :
-sous titre 2</span><br>
+Gestion des buffs et debuffs</span><br>
 &nbsp;</h3>
-<p>Texte</p>
-<h2 style="text-decoration: underline;"><br>
+<p><span style="font-style: italic;"></span><span style="text-decoration: underline;"><span style="font-style: italic;">N.B.:</span></span><span style="font-style: italic;"> dans les extraits de code
+ci-dessous, on constatera souvent la mention </span>.Fighter<span style="font-style: italic;">. Cela désigne le composant </span>Fighter<span style="font-style: italic;"> de la classe </span>GameObject<span style="font-style: italic;">, à savoir une classe dans une
+classe, permettant une division et une répartition plus claire des
+différents attributs et méthodes. Ainsi, la classe </span>GameObject<span style="font-style: italic;"> désigne tout objet du jeu, que
+ce soit une épée, un monstre ou un escalier, tandis que le composant </span>Fighter<span style="font-style: italic;"> n'est possédé que par les
+créatures vivantes, donc les monstres, les Personnages Non Jouables et
+le joueur.</span></p>
+<p>Un <span style="font-style: italic;">buff</span>
+est un terme vidéoludique désignant une condition physique ou mentale
+temporaire positive, comme par exemple un gain de force ou la capacité
+de voler, mais ce sur une période de temps plus ou moins longue. Le <span style="font-style: italic;">debuff</span> est son
+équivalent négatif, et peut par exemple être un poison ou une cécité
+temporaire. Ces deux catégories seront dans la suite de cette partie
+citées sous le nom de buff, afin de simplifier le propos.</p>
+<p><img class="displayed" style="width: 812px; height: 88px;" alt="" src="../../../Pictures/poison_debuff.jpg"></p>
+<p><img class="displayed" style="width: 1208px; height: 88px;" alt="" src="../../../Pictures/werewolf.jpg"></p>
+<p><img class="displayed" style="width: 1203px; height: 85px;" alt="" src="../../../Pictures/human_werewolf.jpg"></p>
+<div style="text-align: center;"><span style="font-style: italic;">Trois exemples de buffs:<br>
+1) Du poison, qui inflige des dégâts au joueur pendant un certain temps<br>
+2) La transformation d'un joueur en loup-garou, puis en 3) le retour à
+sa forme humaine, entraînant une modification visible à gauche de ses
+statistiques.</span></div>
+<p>Afin que le jeu puisse garder en mémoire tous les buffs
+appliqués à un instant <span style="font-style: italic;">t</span>,
+il faut créer une classe Buff dont chaque instance sera unique et liée
+à la créature qui la subit.</p>
+<div class="code"><span style="font-weight: bold;">class
+Buff:</span><br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">def
+__init__</span>(self, name, color, owner =
+None, cooldown = 20, showCooldown = True, showBuff = True,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+applyFunction = None, continuousFunction = None, removeFunction = None):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.name = name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.color = color<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.baseCooldown = cooldown<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.curCooldown = cooldown<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.applyFunction = applyFunction<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.continuousFunction = continuousFunction<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.removeFunction = removeFunction<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.owner = owner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.showCooldown = showCooldown<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.showBuff = showBuff<br>
+</div>
+<p>Cette classe possède dix attributs différents. L'attribut <span style="font-style: italic;">name</span> est simplement
+le nom du buff, comme 'poisonned' par exemple. Les attributs <span style="font-style: italic;">color</span>, <span style="font-style: italic;">showBuff</span>, <span style="font-style: italic;">showCooldown</span> sont
+purement esthétiques, <span style="font-style: italic;">color</span>
+déterminant la couleur dans laquelle apparaîtront les messages relatifs
+au buff, <span style="font-style: italic;">showBuff</span>
+déterminant si le buff et ses messages doivent être affichés, et <span style="font-style: italic;">showCooldown</span>
+déterminant si le&nbsp;<span style="font-style: italic;">cooldown</span>,
+c'est-à-dire la durée restante, du buff doit être affiché. Les
+attributs&nbsp;<span style="font-style: italic;">baseCooldown&nbsp;</span>et&nbsp;<span style="font-style: italic;">curCooldown</span> servent
+justement à surveiller le cooldown du buff, <span style="font-style: italic;">baseCooldown</span>
+servant à garder une trace du cooldown d'origine, et&nbsp;<span style="font-style: italic;">curCooldown</span>
+diminuant à chaque tour, comme nous le verrons, afin de savoir quand le
+buff doit s'arrêter. L'attribut&nbsp;<span style="font-style: italic;">owner&nbsp;</span>sert
+à savoir à quelle créature est appliqué le buff. Enfin, les trois
+derniers attributs&nbsp;<span style="font-style: italic;">applyFunction</span>,&nbsp;<span style="font-style: italic;">continuousFunction&nbsp;</span>et&nbsp;<span style="font-style: italic;">removeFunction</span> sont
+en réalité des méthodes variant d'un buff à l'autre, c'est pourquoi ils
+ne sont pas définis dans la classe directement mais plutôt référencés
+en tant qu'attributs spécifiques. Ils servent à savoir comment se
+comportera le buff à différents moments, à savoir resectivement lorsque
+le buff est appliqué pour la première fois, lorsqu'un tour passe, et
+lorsque le buff disparaît. Ces trois méthodes spécifiques sont appelées
+dans des méthodes communes à tous les buffs.</p>
+<div class="code">&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">def
+applyBuff</span>(self, target):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.owner = target<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if not self.name in convertBuffsToNames(target.Fighter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.curCooldown = self.baseCooldown<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if self.showBuff:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+message(self.owner.name.capitalize() + ' is now ' + self.name + '!',
+self.color)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if self.applyFunction is not None:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.applyFunction(self.owner.Fighter)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.owner.Fighter.buffList.append(self)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bIndex = convertBuffsToNames(self.owner.Fighter).index(self.name)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+target.Fighter.buffList[bIndex].curCooldown += self.baseCooldown<br>
+</div>
+<p>La méthode&nbsp;<span style="font-style: italic;">applyBuff</span>
+permet d'appliquer le buff, par exemple lorsqu'un serpent mord le
+joueur et l'empoisonne.&nbsp;</p>
+<p>Elle attribue tout d'abord au buff son nouveau propriétaire, à
+savoir la cible référencée par l'argument <span style="font-style: italic;">target</span> de la
+méthode. Puis elle vérifie que le buff n'est pas déjà appliqué à la
+cible, afin que celle-ci ne subisse pas deux fois l'application d'un
+même buff.</p>
+<p>Si le buff n'est pas déjà appliqué, la méthode va alors
+initialiser le cooldown du buff et envoyer si nécessaire un message
+avertissant le joueur qu'une créature ou lui-même subit l'effet du
+buff. Elle va ensuite&nbsp;appeler, si elle existe, la méthode <span style="font-style: italic;">applyFunction</span> du
+buff, et va enfin ajouter à la liste de buffs de la cible le nouveau
+buff.</p>
+<div class="code">
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">def
+passTurn</span>(self):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.curCooldown -= 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if self.curCooldown &lt;= 0:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.removeBuff()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if self.continuousFunction is not None:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.continuousFunction(self.owner.Fighter)</div>
+<p>Puis la méthode&nbsp;<span style="font-style: italic;">passTurn</span>
+permet de réduire d'un tour le cooldown du buff. Si le cooldown a
+atteint 0, elle appelle alors la méthode&nbsp;<span style="font-style: italic;">removeBuff</span> décrite
+ci-dessous afin de faire disparaître le buff. Sinon, elle appelle si
+elle existe la méthode&nbsp;<span style="font-style: italic;">continuousFunction</span>
+du buff, afin par exemple d'infliger des dégâts de feu à la cible.</p>
+<div class="code">
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">def
+removeBuff</span>(self):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if self.removeFunction is not None:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.removeFunction(self.owner.Fighter)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.owner.Fighter.buffList.remove(self)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if self.owner.Fighter.buffList is None:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+self.owner.Fighter.buffList = []<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if self.showBuff:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+message(self.owner.name.capitalize() + ' is no longer ' + self.name +
+'.', self.color)</div>
+<p>Enfin, la méthode <span style="font-style: italic;">removeBuff</span>
+sert à faire disparaître le buff. Pour ce faire, elle va tout d'abord
+appeler si elle existe la méthode&nbsp;<span style="font-style: italic;">removeFunction</span> du
+buff. Puis elle va supprimer de la liste de buffs du propriétaire du
+buff, le buff en question. Enfin, elle envoie si nécessaire un message
+afin de notifier le joueur de la disparition du buff.</p>
+<p>Cependant, si les buffs sont bel et bien stockés pour chaque
+créature en subissant les effets, ils ne sont pour l'instant appelés en
+jeu qu'au moment de leur application. Il faut donc les appeler dans la
+boucle principale du jeu, comme suit. (<span style="text-decoration: underline;"><span style="font-style: italic;">N.B.:</span></span><span style="font-style: italic;"> certains fragments du code ont
+ici été effacés afin de ne représenter que la partie qui nous intéresse</span>)
+</p>
+<div class="code"><span style="font-weight: bold;">
+def playGame</span>():<br>
+&nbsp;&nbsp;&nbsp; ...<br>
+&nbsp;&nbsp;&nbsp; while not tdl.event.isWindowClosed():<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ...<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if
+gameState == 'playing' and playerAction != 'didnt-take-turn':<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; ...<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; for object in objects:<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if object.Fighter and object.Fighter is not None:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for buff in object.Fighter.buffList:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buff.passTurn()</div>
+<p>Dans la fonction principale <span style="font-style: italic;">playGame</span>, on joue
+jusqu'à ce que la fenêtre soit fermée, ce qui est représenté par la
+boucle <span style="font-style: italic;">while</span>.
+Dans celle-ci, on vérifie que le jeu doit bien passer un tour (ce qui
+n'est par exemple pas le cas si le jouer doit cibler une case, auquel
+cas le <span style="font-style: italic;">gameState </span>sera
+égal à <span style="font-style: italic;">targeting</span>
+au lieu de <span style="font-style: italic;">playing</span>)
+et si le joueur a bien fait une action. Si c'est le cas, on itère à
+travers la liste de tous les objets présents en jeu. Si chaque
+itération, sous le nom <span style="font-style: italic;">object</span>,
+possède un composant <span style="font-style: italic;">Fighter</span>,
+et, si c'est le cas, on itère alors dans la liste des buffs appliqués à
+celui-ci, en appelant à chaque fois la méthode <span style="font-style: italic;">passTurn</span> du buff
+itéré. Cela va donc permettre d'appliquer les éventuelles fonctions
+continues <span style="font-style: italic;">continuousFunction
+</span>et de réduire d'un tour le cooldown de chaque buff.</p>
+<p><span style="text-decoration: underline;"><span style="font-weight: bold;">Un exemple du fonctionnement des
+buffs: la lycanthropie</span></span></p>
+<p><img class="displayed" style="width: 1208px; height: 88px;" alt="" src="../../../Pictures/werewolf.jpg"></p>
+<p><img class="displayed" style="width: 1203px; height: 85px;" alt="" src="../../../Pictures/human_werewolf.jpg"></p>
+<p></p>
+<p><span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span>Afin
+d'illustrer le code présenté ci-dessus, je vais maintenant présenter un
+extrait de code permettant de gérer la lycanthropie du personnage que
+l'on peu constater ci-dessus.</p>
+<div class="code">
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if
+object.Player and object.Player.race == 'Werewolf':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-weight: bold;">def shapeshift</span>(fighter,
+fromWolf = False, fromHuman = True):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if fromWolf:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+player.Player.shapeshift = 'human'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+object.Player.shapeshifted = True<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if fromHuman:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+player.Player.shapeshift = 'wolf'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+object.Player.shapeshifted = True<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+human = <span style="font-weight: bold;">Buff</span>('human',
+colors.lightest_yellow, cooldown = player.Player.human, showBuff =
+False, &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+applyFunction = <span style="font-weight: bold;">lambda</span>
+fighter: setFighterStatsBack(fighter),
+removeFunction = <span style="font-weight: bold;">lambda</span>
+fighter: &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; shapeshift(fighter))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+wolf = <span style="font-weight: bold;">Buff</span>('in
+wolf form', colors.amber, cooldown = player.Player.wolf, applyFunction
+= <span style="font-weight: bold;">lambda</span>
+fighter: &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;modifyFighterStats(fighter, str = 5, dex
+= 3, vit = 4, will = -5), removeFunction = <span style="font-weight: bold;">lambda</span> fighter:
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;shapeshift(fighter, fromHuman=False,
+fromWolf=True))<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if object.Player.shapeshifted:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if object.Player.shapeshift == 'wolf':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+message('You feel your wild instincts overwhelming you! You have turned
+into your wolf form!', &nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;colors.amber)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+wolf.applyBuff(player)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+object.Player.shapeshifted = False<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if object.Player.shapeshift == 'human':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+human.applyBuff(player)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+object.Player.shapeshifted = False</div>
+<p>Ceci est un extrait de la fonction <span style="font-style: italic;">playGame</span>. On y
+définit la fonction <span style="font-style: italic;">shepashift</span>,
+permettant de jongler entre les formes humaine et loup-garou du joueur.
+Puis on y définit les buffs <span style="font-style: italic;">human
+</span>et <span style="font-style: italic;">wolf</span>.
+Attardons-nous sur leurs méthodes spécifiques.</p>
+<div class="code">
+human = <span style="font-weight: bold;">Buff</span>(...applyFunction
+= <span style="font-weight: bold;">lambda</span>
+fighter: setFighterStatsBack(fighter),
+removeFunction = <span style="font-weight: bold;">lambda</span>
+fighter: &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+shapeshift(fighter))</div>
+<p>On voit ici l'apparition du mot-clé <span style="font-weight: bold;">lambda: </span>. Il est vital
+ici, car, sans lui, on aurait eu&nbsp;<span style="font-style: italic;">applyFunction =
+setFighterStatsBack()</span>, ce qui aurait poussé le programme à
+éxecuter la fonction&nbsp;<span style="font-style: italic;">setFighterStatsBack</span>
+à chaque fois que le buff&nbsp;<span style="font-style: italic;">human</span>
+aurait été appelé, comme si cette fonction retournait une valeur grâce
+à un&nbsp;<span style="font-style: italic;">return</span>,
+ce qui n'est pas le cas ici. On utilise alors&nbsp;<span style="font-weight: bold;">lambda:</span> afin de
+signaler au programme qu'on ne souhaite pas éxecuter une fonction mais
+plutôt déterminer une méthode. Le fait qu'on aie&nbsp;<span style="font-style: italic;">fighter&nbsp;</span>avant les deux points signifie que lorsque l'on appellera la méthode <span style="font-style: italic;">applyFunction</span>, on écrira&nbsp;<span style="font-style: italic;">buff.applyFunction(fighter</span>&nbsp;<span style="font-style: italic;">= something)</span>, ce qui placera l'argument&nbsp;<span style="font-style: italic;">fighter</span> là où il est référencé dans la méthode&nbsp;<span style="font-style: italic;">shapeshift</span> par exemple.</p>
+<div class="code">
+wolf = <span style="font-weight: bold;">Buff</span>(...applyFunction
+= <span style="font-weight: bold;">lambda</span>
+fighter: modifyFighterStats(fighter, str = 5, dex
+= 3, vit = 4, will = -5), &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; removeFunction = <span style="font-weight: bold;">lambda</span> fighter: shapeshift(fighter, fromHuman=False,
+fromWolf=True))</div>
+<p>De même pour le buff&nbsp;<span style="font-style: italic;">wolf</span>,&nbsp;<span style="font-weight: bold;">lambda</span>
+est vital car il permet de déterminer une méthode avec des arguments
+différents de ceux par défaut. En effet, on aurait pu écrire&nbsp;<span style="font-style: italic;">applyFunction = modifyFighterStats</span>, ce qui aurait permis, de même qu'avec&nbsp;<span style="font-weight: bold;">lambda</span>,
+de déterminer une méthode sans éxectuter la fonction référencée.
+Cependant, on n'aurait pas pu en modifier les arguments comme on le
+fait ci-dessus. C'est ce dernier détail qui fait la grande force
+de&nbsp;<span style="font-weight: bold;">lambda</span>.</p><p>Pour en revenir à l'extrait de code nous intéressant, le buff <span style="font-style: italic;">human </span>est
+dès le début de la partie appliqué au joueur. Cela signifie que, dès le
+début de la partie, le cooldown de la forme humaine du joueur diminue,
+jusqu'au moment où elle atteint 0. Le méthode <span style="font-style: italic;">removeFunction </span>est alors appelée, entraînant l'exécution de la fonction <span style="font-style: italic;">shapeshift</span>. Le joueur a alors comme attribut <span style="font-style: italic;">shapeshifted = True</span> et <span style="font-style: italic;">shapeshift = 'wolf'</span>. Le test <span style="font-style: italic;">if object.Player.shapeshifted</span> est alors réussi, et on applique alors le buff <span style="font-style: italic;">wolf</span> au joueur, et ainsi de suite.<span style="font-weight: bold;"></span> </p>
+<h2 style="text-decoration: underline;">
 Les implications du projet : Une partie liée aux problématiques
 sociétales liées au projet.</h2>
 <h3>&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 1&nbsp; :
 La communauté</span><br>
 &nbsp;</h3>
-<p>Nous espérons créer, avec ce jeu, malgré son intérêt assez faible
+<p>Nous espérons créer, avec ce jeu, malgré son intérêt assez
+faible
 par rapport aux géants du genre comme Cogmind, une communauté de
 joueurs qui pourraient se regrouper sur internet afin de discuter des
 différentes stratégies possibles, des secrets qu'ils auront trouvés ou
@@ -517,7 +850,8 @@ un agrandissment des caractères présents sur l'écran.
 <h3>&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 2&nbsp; :
 &nbsp;L'organisation du code (modulation)</span><br>
 </h3>
-<p>Ce projet étant pour tous deux une première réelle expérience de
+<p>Ce projet étant pour tous deux une première réelle expérience
+de
 développement d'un jeu vidéo, ainsi que nos premiers pas en python et
 avec la bibliothèque TDL, nous nous sommes aidés, lors des premières
 étapes du projet, d'un tutoriel trouvé sur Internet. Cependant, nous
@@ -529,10 +863,13 @@ En effet, le code devint vite illisible et anarchique, et nous nous
 serions certainement perdus sans la fonction de recherche (ctrl+F) de
 notre environnement de développement. Nous avons donc tenté d'éclater
 notre projet en différents modules, mais avons vite fait marche arrière
-lorsque nous nous sommes rendus compteque des références réciproques étaient nécessaires à chaque tentative. Par exemple, 
-la création du personnage, qui avait été déplacée vers son propre
+lorsque nous nous sommes rendus compteque des références réciproques
+étaient nécessaires à chaque tentative. Par exemple, la création du
+personnage, qui avait été déplacée vers son propre
 module, faisait référence à des variables globales situées dans le
-fichier<span style="font-style: italic;"> main.py</span>. Mais ce même fichier <span style="font-style: italic;">main.py </span>fasait référence à des
+fichier<span style="font-style: italic;"> main.py</span>.
+Mais ce même fichier <span style="font-style: italic;">main.py
+</span>fasait référence à des
 fonctions situées dans le module de la création de personnage, créant
 ainsi des boucles d'importations dangereuses pour la stabilité du
 programme. Nous avons donc abandonné l'idée de moduler le code déjà
