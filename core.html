@@ -37,8 +37,7 @@ ban.outerHTML = "";
 delete ban
 }
 window.onload = codeAddress;
-</script>
-</head>
+</script></head>
 <body>
 <h1 style="text-align: center; text-decoration: underline;">Le
 Projet du Bac</h1>
@@ -603,31 +602,25 @@ object.Player.shapeshifted = True<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 human = <span style="font-weight: bold;">Buff</span>('human',
 colors.lightest_yellow, cooldown = player.Player.human, showBuff =
-False, &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-applyFunction = <span style="font-weight: bold;">lambda</span>
+False,<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; applyFunction
+= <span style="font-weight: bold;">lambda</span>
 fighter: setFighterStatsBack(fighter),
 removeFunction = <span style="font-weight: bold;">lambda</span>
-fighter: &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; shapeshift(fighter))<br>
+fighter:<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;shapeshift(fighter)) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 wolf = <span style="font-weight: bold;">Buff</span>('in
 wolf form', colors.amber, cooldown = player.Player.wolf, applyFunction
 = <span style="font-weight: bold;">lambda</span>
-fighter: &nbsp;&nbsp;&nbsp;
+fighter:<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;modifyFighterStats(fighter, str = 5, dex
-= 3, vit = 4, will = -5), removeFunction = <span style="font-weight: bold;">lambda</span> fighter:
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+= 3, vit = 4, will = -5), removeFunction = <span style="font-weight: bold;">lambda</span> fighter:<br>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;shapeshift(fighter, fromHuman=False,
 fromWolf=True))<br>
@@ -638,12 +631,10 @@ if object.Player.shapeshifted:<br>
 if object.Player.shapeshift == 'wolf':<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 message('You feel your wild instincts overwhelming you! You have turned
-into your wolf form!', &nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;colors.amber)<br>
+into your wolf form!',<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;colors.amber) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 wolf.applyBuff(player)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -665,10 +656,7 @@ human = <span style="font-weight: bold;">Buff</span>(...applyFunction
 = <span style="font-weight: bold;">lambda</span>
 fighter: setFighterStatsBack(fighter),
 removeFunction = <span style="font-weight: bold;">lambda</span>
-fighter: &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-shapeshift(fighter))</div>
+fighter:<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; shapeshift(fighter))</div>
 <p>On voit ici l'apparition du mot-clé <span style="font-weight: bold;">lambda: </span>. Il est
 vital
 ici, car, sans lui, on aurait eu&nbsp;<span style="font-style: italic;">applyFunction =
@@ -689,11 +677,7 @@ exemple.</p>
 wolf = <span style="font-weight: bold;">Buff</span>(...applyFunction
 = <span style="font-weight: bold;">lambda</span>
 fighter: modifyFighterStats(fighter, str = 5, dex
-= 3, vit = 4, will = -5), &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; removeFunction = <span style="font-weight: bold;">lambda</span> fighter:
+= 3, vit = 4, will = -5),<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;removeFunction = <span style="font-weight: bold;">lambda</span> fighter:
 shapeshift(fighter, fromHuman=False,
 fromWolf=True))</div>
 <p>De même pour le buff&nbsp;<span style="font-style: italic;">wolf</span>,&nbsp;<span style="font-weight: bold;">lambda</span>
@@ -773,7 +757,7 @@ travaillerons après ce dernier. </p>
 <h2><br>
 <span style="text-decoration: underline;">Les problèmes
 rencontrés au cours du développement du projet : L'ensemble des
-problèmes et solutions recontrés et trouves par le groupe.</span></h2>
+problèmes et solutions recontrés et trouvés par le groupe.</span></h2>
 <h3>&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 1&nbsp; :
 Limitations techniques</span>&nbsp;</h3>
 Nous
