@@ -550,31 +550,93 @@ pour une case vide donnée, de remplir tout l'espace vide autour d'elle
 composant la salle étudiée) en s'arrêtant lorsque des murs sont
 rencontrés (et en les ajoutants à la liste des murs de la salle en
 question). Le code appelant la fonction floodfill est le suivant:</p>
-<div class="code"> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; while emptyTiles:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (x,y) = emptyTiles[0]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; newRoomTiles = [] #Cases de la salle a creer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; newRoomEdges = [] #Cases en bordure de la salle a creer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="code"> &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; while emptyTiles:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(x,y) = emptyTiles[0]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newRoomTiles = [] #Cases de la salle a creer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newRoomEdges = [] #Cases en bordure de la salle a creer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+try:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 floodFill(x,y, newRoomTiles, newRoomEdges) #On utilise la fonction
 floodfill pour identifier la salle, qui va remplir les listes
-newRoomTiles et newRoomEdges<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newRoomTiles et newRoomEdges<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 except RecursionError: #Si l'on rencontre une RecursionError dans le
-bloc try, on execute le bloc ci-dessous<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-traceback.print_exc() #On affiche le message d'erreur<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bloc try, on execute le bloc ci-dessous<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+traceback.print_exc() #On affiche le message d'erreur<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 print(sys.getrecursionlimit()) #On affiche la limite maximale de
-recursion<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+recursion<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 os._exit(-1) #On quitte le programme afin d'eviter de provoquer
-d'autres erreurs qui viendraient masquer celle-ci<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; newRoom = CaveRoom(newRoomTiles, borders = newRoomEdges)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if len(newRoom.tiles) &lt; MIN_ROOM_SIZE:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+d'autres erreurs qui viendraient masquer celle-ci<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newRoom = CaveRoom(newRoomTiles, borders = newRoomEdges)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if len(newRoom.tiles) &lt; MIN_ROOM_SIZE:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 newRoom.remove() #Si la salle est trop petite, on la rebouche</div>
-<p style="text-align: left;">La liste emptyTiles comporte toutes les
-cases vides n'ayant pas encore été traitées par la fonction floodfill.
-Tant que cette liste n'est pas vide, on prend les coordonées de la
-première case de cette liste (qui contient en réalité des tuples
+<p style="text-align: left;">La liste emptyTiles comporte
+toutes les cases vides n'ayant pas encore été traitées par la fonction
+floodfill. Tant que cette liste n'est pas vide, on prend les coordonées
+de la première case de cette liste (qui contient en réalité des tuples
 contenant les coordonées des cases et non les cases elles mêmes), on
 crée deux listes vides, l'une correspondant aux cases vides de la
 future salle et l'autre correspondant à ses bordures, et on essaye
-d'appeler la fonction floodfill à partir de ces coordonées, et en lui
-indiquant qu'il faut remplir la liste newRoomTiles avec les cases vides rencontrées et la liste newRoomEdges
-avec les murs rencontrés. Comme cette fonction retire les cases qu'elle
-rencontre de la liste emptyTiles, on sera garanti de prendre une case
-appartenant à une autre salle lors de la prochaine itération de la
-boucle.</p>
+d'appeler la fonction floodFill à partir de ces coordonées, et en lui
+indiquant qu'il faut remplir la liste newRoomTiles avec les cases vides
+rencontrées et la liste newRoomEdges avec les murs rencontrés. Comme
+cette fonction retire les cases qu'elle rencontre de la liste
+emptyTiles, on sera garanti de prendre une case appartenant à une autre
+salle lors de la prochaine itération de la boucle. La fonction
+floodfill en elle même est celle-ci:</p>
+<div class="code">def floodFill(x, y, listToAppend,
+edgeList):<br>
+&nbsp;&nbsp;&nbsp; print("{},{}".format(x, y))<br>
+&nbsp;&nbsp;&nbsp; if not myMap[x][y].blocked:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (x,y) in emptyTiles:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+removeFromEmptyTiles(x,y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+listToAppend.append((x,y))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+floodFill(x+1, y, listToAppend, edgeList)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+floodFill(x-1, y, listToAppend, edgeList)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+floodFill(x, y+1, listToAppend, edgeList)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+floodFill(x, y-1, listToAppend, edgeList)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return<br>
+&nbsp;&nbsp;&nbsp; else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+edgeList.append((x,y))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return</div>
+<p>Il s'agit, comme on peut le constater, d'une fonction
+récursive : si la case correspondant aux coordonées x,y n'est pas un
+mur et qu'elle figure dans la liste emptyTiles, on la retire de cette
+liste et on l'ajoute à la liste des cases, que l'on a passée dans
+l'argument listToAppend, puis on rapelle la fonction floodFill sur les
+quatre cases adjacentes dans les directions cardinales à la case
+d'origine. Si au contraire cette case est bloquée, alors on l'ajoute à
+la liste des bordures que l'on a passée en argument dans edgeList.</p>
+Une fois que l'on a identifié une salle avec le floodfill, on crée une
+instance de la classe CaveRoom qui va permettre de stocker les listes
+précédemment crées, c'est à dire.que l'on appelle la méthode __init__
+de cette classe :<br><br>
+<div class="code"> class CaveRoom:<br>&nbsp;&nbsp;&nbsp; def __init__(self, tiles, borders = []):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.tiles = tiles<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.borders = borders<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rooms.append(self)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.contestedTiles = []<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.collidingRooms = []<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.connectedRooms = []<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.protect = False<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.mainRoom = False<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.reachableFromMainRoom = False</div>
+<p></p>
 <h3 class="">&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 2&nbsp; :
 sous titre 2</span><br>
 &nbsp;</h3>
@@ -603,7 +665,8 @@ d'écrire le jeu en anglais, afin de l'ouvrir au plus grand nombre. De
 même, nous avons écrit le code source en anglais afin de faciliter la
 tâche de personnes souhaitant en créer et en partager des variantes
 et/ou des modifications, dans le but de personaliser leur expérience de
-<span style="font-style: italic;">Dementia RL</span>, ce qui le coeur de l'esprit OpenSource.</p>
+<span style="font-style: italic;">Dementia RL</span>,
+ce qui le coeur de l'esprit OpenSource.</p>
 <h3>&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 2&nbsp; :
 Le risque d'addiction</span><br>
 &nbsp;</h3>
