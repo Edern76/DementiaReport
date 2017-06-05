@@ -948,7 +948,16 @@ salle a déjà deux ou plus connections à d'autres salles, alors on ne
 l'étudie pas et on passe à une autre. Cela évite d'avoir une seule
 salle d'où partent la quasi totalité des chemins, ce qui fonctionne
 aussi bien que avec cette limitation (dans le sens où toutes les salles
-sont accessibles) mais est assez inesthéique.</p>
+sont accessibles) mais est assez inesthéique.</p><p>La génération de la caverne en elle même est alors terminée,
+il ne reste plus qu'à placer le joueur, l'entrée / sortie du niveau et
+les objets et ennemis, ce qui se fait dans d'autres fonctions mais qui
+ne sont pas l'objet de cette partie. Pour résumer, on place le joueur
+sur une case aléatoire de la salle principale, puis pour chaque salle
+on détermine un nombre aléatoire d'objet et d'ennemis, et on on choisit
+aléatoirement le type de cet objet / ennemi dans un dictionnaire dont
+les clés sont les types possibles et les valeurs la probabilité
+d'apparition de chaque type, et l'on place ces objets dans des
+positions aléatoires dans leur salles respectives.</p>
 <h3 class="">&nbsp;&nbsp;&nbsp; <span style="text-decoration: underline;">Partie 2&nbsp; :
 Gestion des buffs et debuffs</span><br>
 &nbsp;</h3>
